@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Foto con Famosos ✨</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --gold: #C9A84C;
     --gold-light: #F0D080;
     --dark: #0A0A0F;
     --dark3: #1A1A24;
-    --card: #16161F;
-    --border: rgba(201,168,76,0.25);
+    --card: #13131A;
+    --border: rgba(201,168,76,0.2);
     --text: #F5F0E8;
-    --muted: rgba(245,240,232,0.5);
+    --muted: rgba(245,240,232,0.45);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,206 +22,197 @@
   html, body {
     height: 100%; overflow: hidden;
     font-family: 'DM Sans', sans-serif;
-    background: var(--dark);
-    color: var(--text);
+    background: var(--dark); color: var(--text);
   }
 
-  .bg-layer {
+  .bg {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background:
-      radial-gradient(ellipse 60% 50% at 15% 25%, rgba(201,168,76,0.07) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 60% at 85% 75%, rgba(100,80,160,0.08) 0%, transparent 70%);
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 90% 80%, rgba(100,80,160,0.07) 0%, transparent 60%);
   }
 
-  .stars {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background-image:
-      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
-      radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.25) 0%, transparent 100%),
-      radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 50% 12%, rgba(201,168,76,0.5) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 75% 40%, rgba(201,168,76,0.35) 0%, transparent 100%);
-  }
-
+  /* Layout: toda la pantalla, centrado */
   .app {
     position: relative; z-index: 1;
     height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 16px;
+    gap: 0;
   }
 
-  /* ---- Columna izquierda ---- */
-  .left-col {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 24px 28px 24px 36px;
-    border-right: 1px solid var(--border);
-    gap: 14px;
-    animation: fadeUp 0.7s ease both;
+  /* Card contenedor único */
+  .card {
+    width: 100%; max-width: 560px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    animation: fadeUp 0.6s ease both;
   }
+
+  /* Header dentro de la card */
+  .card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .header-left { display: flex; flex-direction: column; gap: 2px; }
 
   .badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    border: 1px solid var(--border); padding: 4px 12px;
-    border-radius: 100px; font-size: 10px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--gold); background: rgba(201,168,76,0.06);
-    width: fit-content;
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 4px;
   }
 
   h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-    font-weight: 900; line-height: 1.05;
-    background: linear-gradient(135deg, #F0D080 0%, #C9A84C 50%, #F0D080 100%);
+    font-size: 1.55rem; font-weight: 900; line-height: 1;
+    background: linear-gradient(135deg, #F0D080, #C9A84C, #F0D080);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .subtitle { font-size: 12px; color: var(--muted); line-height: 1.6; max-width: 340px; }
+  .subtitle { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
-  .steps { display: flex; align-items: center; gap: 6px; }
-  .step-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted); }
-  .step-num {
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 1px solid rgba(201,168,76,0.4); color: var(--gold);
-    display: flex; align-items: center; justify-content: center; font-size: 10px;
+  /* Steps pill */
+  .steps-pill {
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(201,168,76,0.06); border: 1px solid var(--border);
+    border-radius: 100px; padding: 6px 12px;
   }
-  .step-sep { width: 16px; height: 1px; background: var(--border); }
+  .sp { font-size: 9px; color: var(--muted); }
+  .sp.active { color: var(--gold); font-weight: 500; }
+  .sp-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border); }
+
+  /* Body de la card */
+  .card-body { padding: 16px 24px; display: flex; flex-direction: column; gap: 14px; }
+
+  /* Fila upload + escenas */
+  .row-top { display: grid; grid-template-columns: 1fr 1.6fr; gap: 12px; }
 
   .section-label {
-    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 8px; display: block;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 7px; display: block;
   }
 
-  /* Dropzone */
+  /* Dropzone compacto */
   .dropzone {
-    border: 1.5px dashed var(--border); border-radius: 12px;
-    padding: 14px 16px; cursor: pointer;
-    transition: all 0.25s; background: rgba(201,168,76,0.02);
-    position: relative;
+    border: 1.5px dashed var(--border); border-radius: 10px;
+    padding: 12px; text-align: center; cursor: pointer;
+    transition: all 0.2s; background: rgba(201,168,76,0.02);
+    position: relative; height: 100%;
+    display: flex; align-items: center; justify-content: center;
   }
   .dropzone:hover, .dropzone.active { border-color: var(--gold); background: rgba(201,168,76,0.05); }
   .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .dz-inner { display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; }
+  .dz-icon { font-size: 22px; }
+  .dz-title { font-size: 11px; font-weight: 500; }
+  .dz-hint { font-size: 9px; color: var(--muted); }
 
-  .upload-inner { display: flex; align-items: center; gap: 12px; }
-  .upload-icon {
-    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
-    background: rgba(201,168,76,0.1); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  /* Preview compacto */
+  .preview-wrap {
+    display: none; flex-direction: column; align-items: center; gap: 6px;
+    pointer-events: none;
   }
-  .upload-title { font-size: 13px; font-weight: 500; }
-  .upload-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .preview-thumb { width: 52px; height: 52px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
+  .preview-ok { font-size: 10px; font-weight: 500; color: var(--gold); }
+  .preview-change {
+    font-size: 9px; color: var(--muted); cursor: pointer;
+    pointer-events: all; text-decoration: underline;
+  }
 
-  .preview-wrap { display: none; align-items: center; gap: 12px; }
-  .preview-thumb { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
-  .preview-name { font-size: 13px; font-weight: 500; }
-  .preview-change { font-size: 11px; color: var(--gold); cursor: pointer; margin-top: 2px; }
-
-  /* Escenarios */
-  .scene-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  /* Escenas */
+  .scene-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .scene-card {
-    border: 1px solid var(--border); border-radius: 10px;
-    padding: 10px 6px; cursor: pointer; transition: all 0.2s;
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 4px; cursor: pointer; transition: all 0.18s;
     background: var(--dark3); text-align: center;
   }
-  .scene-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+  .scene-card:hover { border-color: var(--gold); }
   .scene-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.1); }
-  .scene-emoji { font-size: 18px; margin-bottom: 4px; }
-  .scene-name { font-size: 10px; font-weight: 500; line-height: 1.3; }
+  .sc-emoji { font-size: 16px; margin-bottom: 3px; }
+  .sc-name { font-size: 9px; font-weight: 500; line-height: 1.2; }
 
-  /* Estilo + Género */
-  .options-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .style-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  /* Fila estilo + género */
+  .row-mid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .style-pills { display: flex; flex-wrap: wrap; gap: 5px; }
   .style-pill {
     border: 1px solid var(--border); border-radius: 100px;
-    padding: 4px 12px; font-size: 11px; cursor: pointer;
-    transition: all 0.2s; background: transparent; color: var(--text);
+    padding: 3px 10px; font-size: 10px; cursor: pointer;
+    transition: all 0.18s; background: transparent; color: var(--text);
     font-family: 'DM Sans', sans-serif;
   }
   .style-pill:hover, .style-pill.selected {
     border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08);
   }
-  .gender-btns { display: flex; gap: 6px; margin-top: 8px; }
+
+  .gender-btns { display: flex; gap: 5px; }
   .toggle-btn {
-    flex: 1; padding: 6px 4px; border: 1px solid var(--border);
-    border-radius: 8px; background: transparent; color: var(--text);
-    font-family: 'DM Sans', sans-serif; font-size: 11px; cursor: pointer; transition: all 0.2s;
+    flex: 1; padding: 5px 4px; border: 1px solid var(--border);
+    border-radius: 7px; background: transparent; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 10px; cursor: pointer; transition: all 0.18s;
   }
   .toggle-btn.active { border-color: var(--gold); background: rgba(201,168,76,0.1); color: var(--gold); }
 
+  /* Error */
   .error-box {
     display: none; background: rgba(200,60,60,0.08);
-    border: 1px solid rgba(200,60,60,0.3); border-radius: 8px;
-    padding: 8px 12px; font-size: 11px; color: #F09595;
+    border: 1px solid rgba(200,60,60,0.25); border-radius: 7px;
+    padding: 7px 12px; font-size: 11px; color: #F09595;
   }
+
+  /* Footer card */
+  .card-footer { padding: 0 24px 20px; }
 
   .btn-generate {
     width: 100%; padding: 13px;
     background: linear-gradient(135deg, #C9A84C, #F0D080, #C9A84C);
     background-size: 200% 100%; background-position: 100% 0;
-    border: none; border-radius: 12px;
-    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+    border: none; border-radius: 11px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
     color: #0A0A0F; cursor: pointer; transition: all 0.4s;
     display: flex; align-items: center; justify-content: center; gap: 8px;
   }
   .btn-generate:hover:not(:disabled) { background-position: 0% 0; }
-  .btn-generate:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-generate:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* ---- Columna derecha ---- */
-  .right-col {
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    padding: 24px 36px 24px 28px;
-    animation: fadeUp 0.7s 0.2s ease both;
-  }
-
-  .empty-state {
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center; gap: 16px;
-  }
-  .empty-icon {
-    width: 80px; height: 80px; border-radius: 50%;
-    border: 1px solid var(--border); background: rgba(201,168,76,0.05);
-    display: flex; align-items: center; justify-content: center; font-size: 32px;
-  }
-  .empty-title { font-size: 15px; font-weight: 500; }
-  .empty-sub { font-size: 12px; color: var(--muted); max-width: 220px; line-height: 1.6; }
-
-  .loading-state {
-    display: none; flex-direction: column; align-items: center;
-    text-align: center; gap: 16px;
+  /* ---- Vista LOADING ---- */
+  .loading-view {
+    display: none; padding: 32px 24px;
+    flex-direction: column; align-items: center; gap: 12px; text-align: center;
   }
   .loader-ring {
-    width: 52px; height: 52px;
-    border: 2px solid rgba(201,168,76,0.15);
+    width: 44px; height: 44px;
+    border: 2px solid rgba(201,168,76,0.12);
     border-top-color: var(--gold); border-radius: 50%;
     animation: spin 1s linear infinite;
   }
-  .loading-title { font-size: 14px; font-weight: 500; }
-  .loading-phase { font-size: 12px; color: var(--gold); }
+  .loading-title { font-size: 13px; font-weight: 500; }
+  .loading-phase { font-size: 11px; color: var(--gold); }
 
-  .result-state {
-    display: none; flex-direction: column;
-    width: 100%; height: 100%; gap: 12px; justify-content: center;
+  /* ---- Vista RESULTADO ---- */
+  .result-view {
+    display: none; flex-direction: column; gap: 0;
   }
-  .result-img-wrap {
-    border-radius: 14px; overflow: hidden;
-    border: 1px solid var(--border); position: relative;
-  }
-  .result-img-wrap img {
-    width: 100%; display: block;
-    max-height: calc(100vh - 220px); object-fit: cover;
-  }
+
+  .result-img-wrap { position: relative; }
+  .result-img-wrap img { width: 100%; display: block; max-height: 46vh; object-fit: cover; }
   .result-badge {
     position: absolute; top: 10px; left: 10px;
     background: rgba(10,10,15,0.8); border: 1px solid var(--border);
     border-radius: 100px; padding: 3px 10px;
-    font-size: 10px; color: var(--gold); letter-spacing: 0.08em;
+    font-size: 9px; color: var(--gold); letter-spacing: 0.08em;
   }
+
+  .result-bottom { padding: 14px 24px 20px; display: flex; flex-direction: column; gap: 10px; }
+
   .result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .btn-action {
-    padding: 10px; border-radius: 10px;
+    padding: 9px; border-radius: 9px;
     font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
     cursor: pointer; transition: all 0.2s; border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center; gap: 6px;
@@ -231,154 +222,159 @@
   .btn-share { background: transparent; color: var(--text); }
   .btn-share:hover { border-color: var(--gold); color: var(--gold); }
 
-  .tiktok-caption {
+  .tiktok-row {
     background: var(--dark3); border: 1px solid var(--border);
-    border-radius: 10px; padding: 10px 14px;
-    display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+    border-radius: 9px; padding: 10px 12px;
+    display: flex; align-items: flex-start; gap: 10px;
   }
-  .caption-text { font-size: 11px; line-height: 1.6; color: var(--text); flex: 1; }
-  .hashtags-line { font-size: 10px; color: var(--gold); margin-top: 4px; }
+  .caption-text { font-size: 10px; line-height: 1.6; flex: 1; }
+  .hashtags-line { font-size: 9px; color: var(--gold); margin-top: 3px; }
   .copy-btn {
     background: none; border: 1px solid var(--border); color: var(--muted);
-    font-family: 'DM Sans', sans-serif; font-size: 10px;
-    border-radius: 6px; padding: 4px 10px; cursor: pointer;
-    transition: all 0.2s; flex-shrink: 0; align-self: flex-start;
+    font-family: 'DM Sans', sans-serif; font-size: 9px;
+    border-radius: 5px; padding: 4px 8px; cursor: pointer;
+    transition: all 0.2s; flex-shrink: 0;
   }
   .copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+
   .btn-reset {
     background: none; border: 1px solid var(--border); color: var(--muted);
     font-family: 'DM Sans', sans-serif; font-size: 11px;
-    border-radius: 8px; padding: 8px; cursor: pointer;
-    transition: all 0.2s; width: 100%;
+    border-radius: 8px; padding: 7px; cursor: pointer; width: 100%;
+    transition: all 0.2s;
   }
   .btn-reset:hover { color: var(--text); }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  @media (max-width: 700px) {
+  @media (max-width: 480px) {
     html, body { overflow-y: auto; }
-    .app { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; }
-    .left-col { padding: 20px 16px; border-right: none; border-bottom: 1px solid var(--border); }
-    .right-col { padding: 20px 16px; min-height: 60vw; }
+    .app { justify-content: flex-start; padding-top: 20px; height: auto; min-height: 100vh; }
+    .row-top { grid-template-columns: 1fr; }
+    .dropzone { height: 80px; }
   }
 </style>
 </head>
 <body>
-<div class="bg-layer"></div>
-<div class="stars"></div>
+<div class="bg"></div>
 
 <div class="app">
+  <div class="card" id="mainCard">
 
-  <!-- IZQUIERDA -->
-  <div class="left-col">
-    <div class="badge">✦ IA Generativa · TikTok Viral</div>
-    <h1>Foto con<br>Famosos</h1>
-    <p class="subtitle">Sube tu selfie y aparece junto a celebridades en escenas cinematográficas.</p>
+    <!-- VISTA: Formulario -->
+    <div id="formView">
+      <div class="card-header">
+        <div class="header-left">
+          <div class="badge">✦ IA Generativa · TikTok Viral</div>
+          <h1>Foto con Famosos</h1>
+          <div class="subtitle">Aparece en escenas cinematográficas junto a celebridades</div>
+        </div>
+        <div class="steps-pill">
+          <span class="sp active">Foto</span>
+          <div class="sp-dot"></div>
+          <span class="sp">Escena</span>
+          <div class="sp-dot"></div>
+          <span class="sp">Genera</span>
+          <div class="sp-dot"></div>
+          <span class="sp">Comparte</span>
+        </div>
+      </div>
 
-    <div class="steps">
-      <div class="step-item"><div class="step-num">1</div> Tu foto</div>
-      <div class="step-sep"></div>
-      <div class="step-item"><div class="step-num">2</div> Escenario</div>
-      <div class="step-sep"></div>
-      <div class="step-item"><div class="step-num">3</div> Genera</div>
-      <div class="step-sep"></div>
-      <div class="step-item"><div class="step-num">4</div> Comparte</div>
-    </div>
-
-    <div>
-      <span class="section-label">✦ Tu foto</span>
-      <div class="dropzone" id="dropzone">
-        <input type="file" accept="image/*" id="fileInput">
-        <div class="upload-inner" id="uploadContent">
-          <div class="upload-icon">📸</div>
+      <div class="card-body">
+        <!-- Fila 1: upload + escenarios -->
+        <div class="row-top">
           <div>
-            <div class="upload-title">Sube tu selfie</div>
-            <div class="upload-hint">JPG, PNG · Máx 10MB</div>
+            <span class="section-label">✦ Tu foto</span>
+            <div class="dropzone" id="dropzone">
+              <input type="file" accept="image/*" id="fileInput">
+              <div class="dz-inner" id="uploadContent">
+                <div class="dz-icon">📸</div>
+                <div class="dz-title">Sube tu selfie</div>
+                <div class="dz-hint">JPG · PNG · Máx 10MB</div>
+              </div>
+              <div class="preview-wrap" id="previewWrap">
+                <img class="preview-thumb" id="previewImg" src="" alt="">
+                <div class="preview-ok">Foto lista ✓</div>
+                <div class="preview-change" onclick="removeImage(event)">Cambiar</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <span class="section-label">✦ Escenario</span>
+            <div class="scene-grid">
+              <div class="scene-card selected" data-scene="red-carpet"><div class="sc-emoji">🏆</div><div class="sc-name">Alfombra Roja</div></div>
+              <div class="scene-card" data-scene="movie-poster"><div class="sc-emoji">🎬</div><div class="sc-name">Póster Hollywood</div></div>
+              <div class="scene-card" data-scene="backstage"><div class="sc-emoji">🎤</div><div class="sc-name">Backstage</div></div>
+              <div class="scene-card" data-scene="afterparty"><div class="sc-emoji">🥂</div><div class="sc-name">After-party</div></div>
+            </div>
           </div>
         </div>
-        <div class="preview-wrap" id="previewWrap">
-          <img class="preview-thumb" id="previewImg" src="" alt="">
+
+        <!-- Fila 2: estilo + género -->
+        <div class="row-mid">
           <div>
-            <div class="preview-name">Foto cargada ✓</div>
-            <div class="preview-change" onclick="removeImage(event)">Cambiar foto</div>
+            <span class="section-label">✦ Estilo</span>
+            <div class="style-pills">
+              <button class="style-pill selected" data-style="realistic">Hiperrealista</button>
+              <button class="style-pill" data-style="cinematic">Cinematográfico</button>
+              <button class="style-pill" data-style="editorial">Editorial</button>
+              <button class="style-pill" data-style="vintage">Vintage</button>
+            </div>
+          </div>
+          <div>
+            <span class="section-label">✦ Género</span>
+            <div class="gender-btns">
+              <button class="toggle-btn active" data-gender="male">Masc.</button>
+              <button class="toggle-btn" data-gender="female">Fem.</button>
+              <button class="toggle-btn" data-gender="neutral">Neutro</button>
+            </div>
           </div>
         </div>
+
+        <div class="error-box" id="errorBox"></div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn-generate" id="btnGenerate" onclick="generateImage()">
+          ✨ Generar mi foto con famosos
+        </button>
       </div>
     </div>
 
-    <div>
-      <span class="section-label">✦ Escenario</span>
-      <div class="scene-grid">
-        <div class="scene-card selected" data-scene="red-carpet"><div class="scene-emoji">🏆</div><div class="scene-name">Alfombra Roja</div></div>
-        <div class="scene-card" data-scene="movie-poster"><div class="scene-emoji">🎬</div><div class="scene-name">Póster Hollywood</div></div>
-        <div class="scene-card" data-scene="backstage"><div class="scene-emoji">🎤</div><div class="scene-name">Backstage</div></div>
-        <div class="scene-card" data-scene="afterparty"><div class="scene-emoji">🥂</div><div class="scene-name">After-party</div></div>
-      </div>
-    </div>
-
-    <div class="options-row">
-      <div>
-        <span class="section-label">✦ Estilo</span>
-        <div class="style-pills">
-          <button class="style-pill selected" data-style="realistic">Hiperrealista</button>
-          <button class="style-pill" data-style="cinematic">Cinematográfico</button>
-          <button class="style-pill" data-style="editorial">Editorial</button>
-          <button class="style-pill" data-style="vintage">Vintage</button>
-        </div>
-      </div>
-      <div>
-        <span class="section-label">✦ Género</span>
-        <div class="gender-btns">
-          <button class="toggle-btn active" data-gender="male">Masc.</button>
-          <button class="toggle-btn" data-gender="female">Fem.</button>
-          <button class="toggle-btn" data-gender="neutral">Neutro</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="error-box" id="errorBox"></div>
-
-    <button class="btn-generate" id="btnGenerate" onclick="generateImage()">
-      ✨ Generar mi foto con famosos
-    </button>
-  </div>
-
-  <!-- DERECHA -->
-  <div class="right-col">
-    <div class="empty-state" id="emptyState">
-      <div class="empty-icon">🎬</div>
-      <div class="empty-title">Tu foto aparecerá aquí</div>
-      <div class="empty-sub">Elige tu escenario, sube tu selfie y genera tu imagen cinematográfica.</div>
-    </div>
-
-    <div class="loading-state" id="loadingState">
+    <!-- VISTA: Loading -->
+    <div class="loading-view" id="loadingView">
       <div class="loader-ring"></div>
       <div class="loading-title">Generando tu foto...</div>
       <div class="loading-phase" id="loadingPhase">Analizando tu rostro</div>
     </div>
 
-    <div class="result-state" id="resultState">
+    <!-- VISTA: Resultado -->
+    <div class="result-view" id="resultView">
       <div class="result-img-wrap">
         <div class="result-badge">✦ Generado con IA</div>
         <img id="resultImg" src="" alt="Resultado">
       </div>
-      <div class="result-actions">
-        <button class="btn-action btn-download" onclick="downloadImage()">⬇ Descargar</button>
-        <button class="btn-action btn-share" onclick="shareToTikTok()">↗ Compartir</button>
-      </div>
-      <div class="tiktok-caption">
-        <div>
-          <div class="caption-text" id="tiktokCaption"></div>
-          <div class="hashtags-line" id="tiktokHashtags"></div>
+      <div class="result-bottom">
+        <div class="result-actions">
+          <button class="btn-action btn-download" onclick="downloadImage()">⬇ Descargar</button>
+          <button class="btn-action btn-share" onclick="shareToTikTok()">↗ Compartir</button>
         </div>
-        <button class="copy-btn" onclick="copyCaption()">Copiar</button>
+        <div class="tiktok-row">
+          <div>
+            <div class="caption-text" id="tiktokCaption"></div>
+            <div class="hashtags-line" id="tiktokHashtags"></div>
+          </div>
+          <button class="copy-btn" onclick="copyCaption()">Copiar</button>
+        </div>
+        <button class="btn-reset" onclick="resetApp()">← Generar otra foto</button>
       </div>
-      <button class="btn-reset" onclick="resetApp()">← Generar otra foto</button>
     </div>
+
   </div>
 </div>
 
@@ -399,8 +395,9 @@ const captions = {
 };
 const hashtags = '#IA #FotoConFamosos #Hollywood #Viral #InteligenciaArtificial #fyp #parati #AIPhoto #TikTokViral';
 
+// Upload
 const fileInput = document.getElementById('fileInput');
-const dropzone = document.getElementById('dropzone');
+const dropzone  = document.getElementById('dropzone');
 
 fileInput.addEventListener('change', e => { if (e.target.files[0]) processFile(e.target.files[0]); });
 dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('active'); });
@@ -430,6 +427,7 @@ function removeImage(e) {
   fileInput.value = '';
 }
 
+// Selectores
 document.querySelectorAll('.scene-card').forEach(c => c.addEventListener('click', () => {
   document.querySelectorAll('.scene-card').forEach(x => x.classList.remove('selected'));
   c.classList.add('selected'); state.scene = c.dataset.scene;
@@ -443,35 +441,42 @@ document.querySelectorAll('.toggle-btn').forEach(b => b.addEventListener('click'
   b.classList.add('active'); state.gender = b.dataset.gender;
 }));
 
+// Generar
 async function generateImage() {
   hideError();
   if (!state.imageBase64) { showError('Por favor sube tu foto primero.'); return; }
-  const btn = document.getElementById('btnGenerate');
-  btn.disabled = true;
+  document.getElementById('btnGenerate').disabled = true;
   showView('loading');
+
   const phases = ['Analizando tu rostro...','Componiendo la escena...','Añadiendo iluminación...','Puliendo detalles...'];
   let pi = 0;
   const phaseEl = document.getElementById('loadingPhase');
   const interval = setInterval(() => { phaseEl.textContent = phases[++pi % phases.length]; }, 2500);
+
   try {
     const res = await fetch(WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userImageBase64: state.imageBase64, imageType: state.imageType, scene: state.scene, style: state.style, gender: state.gender })
     });
-    clearInterval(interval); btn.disabled = false;
+    clearInterval(interval);
+    document.getElementById('btnGenerate').disabled = false;
+
     if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error || `Error ${res.status}`); }
     const data = await res.json();
     if (!data.imageUrl && !data.imageBase64) throw new Error('No se recibió imagen.');
+
     state.resultUrl = data.imageUrl || `data:image/png;base64,${data.imageBase64}`;
     document.getElementById('resultImg').src = state.resultUrl;
     state.caption = `${captions[state.scene]}\n\n${hashtags}`;
     document.getElementById('tiktokCaption').textContent = captions[state.scene];
     document.getElementById('tiktokHashtags').textContent = hashtags;
     showView('result');
+
   } catch(err) {
-    clearInterval(interval); btn.disabled = false;
-    showView('empty'); showError(`Error: ${err.message}`);
+    clearInterval(interval);
+    document.getElementById('btnGenerate').disabled = false;
+    showView('form'); showError(`Error: ${err.message}`);
   }
 }
 
@@ -490,12 +495,15 @@ function copyCaption() {
     btn.textContent = '✓'; setTimeout(() => btn.textContent = orig, 2000);
   });
 }
-function resetApp() { removeImage({ stopPropagation: ()=>{} }); showView('empty'); }
+function resetApp() {
+  removeImage({ stopPropagation: ()=>{} });
+  showView('form');
+}
 
 function showView(v) {
-  document.getElementById('emptyState').style.display   = v==='empty'   ? 'flex' : 'none';
-  document.getElementById('loadingState').style.display = v==='loading' ? 'flex' : 'none';
-  document.getElementById('resultState').style.display  = v==='result'  ? 'flex' : 'none';
+  document.getElementById('formView').style.display    = v==='form'    ? 'block' : 'none';
+  document.getElementById('loadingView').style.display = v==='loading' ? 'flex'  : 'none';
+  document.getElementById('resultView').style.display  = v==='result'  ? 'flex'  : 'none';
 }
 function showError(msg) { const b = document.getElementById('errorBox'); b.textContent = msg; b.style.display = 'block'; }
 function hideError() { document.getElementById('errorBox').style.display = 'none'; }
